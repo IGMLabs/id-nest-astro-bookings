@@ -1,4 +1,4 @@
-export interface Agency {
+export interface Agencyasdf {
   id: string;
   name: string;
 }
