@@ -5,6 +5,12 @@ import { Document } from "mongoose";
 export class Agency extends Document {
   @Prop({ required: false })
   public name: string;
+
+  @Prop({ required: false })
+  public range: string;
+
+  @Prop({ required: false })
+  public status: string;
 }
 
 export const AgencySchema = SchemaFactory.createForClass(Agency);

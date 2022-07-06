@@ -2,6 +2,7 @@ import { MiddlewareConsumer, Module, NestModule, ValidationPipe } from "@nestjs/
 import { APP_GUARD, APP_PIPE } from "@nestjs/core";
 import { MongooseModule } from "@nestjs/mongoose";
 import { ThrottlerGuard, ThrottlerModule } from "@nestjs/throttler";
+import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 import helmet from "helmet";
 import { MonitorMiddleware } from "./middlewares/monitor.middleware";
 import { UtilsService } from "./utils/utils.service";
@@ -12,10 +13,25 @@ const mongoHost = "localhost:27017";
 const mongoDB = "nest";
 const mongoUri = `mongodb://${mongoUser}:${mongoPass}@${mongoHost}/${mongoDB}?authSource=admin`;
 
+const postgresOptions: TypeOrmModuleOptions = {
+  type: "postgres",
+  host: "localhost",
+  port: 5432,
+  username: "nest_user",
+  password: "nest_password",
+  database: "nest",
+  autoLoadEntities: true,
+  synchronize: true,
+};
+
 //mongodb://nest_user:nest_password@localhost:27017/nest?authSource=admin
 
 @Module({
-  imports: [ThrottlerModule.forRoot({ ttl: 60, limit: 10 }), MongooseModule.forRoot(mongoUri)],
+  imports: [
+    ThrottlerModule.forRoot({ ttl: 60, limit: 10 }),
+    MongooseModule.forRoot(mongoUri),
+    TypeOrmModule.forRoot(postgresOptions),
+  ],
   providers: [
     UtilsService,
     {

@@ -33,6 +33,7 @@ export class AuthService {
     // };
     // this.users.push(user);
     await user.save();
+    console.log("SAVED");
     return this.buildCredentials(user);
   }
 
